@@ -16,24 +16,23 @@ div $s0, $t2
 mfhi $t1          # remainder tá na t1
 beqz $t1, NOT_A_PRIME_NUMBER 
 
-.WHILE 
-	bge $s0, $s1, IT_IS_A_PRIME_NUMBER
-	
-	
+WHILE:
+	bge $s0, $s1, IT_IS_A_PRIME_NUMBER # Se o count for > número escolhido é pq é primo
+	div $s0, $s1
+	mfhi $t1
+	beqz $t1, NOT_A_PRIME_NUMBER
+	addi $s1, $zero, 1
 	j WHILE
 
+NOT_A_PRIME_NUMBER:
+	la $a0, not_a_prime_number_msg
+	li $v0, 4
+	syscall
+	j END
 
-
-.NOT_A_PRIME_NUMBER:
-	la $a0, 0(not_a_prime_number_msg)
+IT_IS_A_PRIME_NUMBER:
+	la $a0, it_is_a_prime_number_msg
 	li $v0, 4
 	syscall
 
-.IT_IS_A_PRIME_NUMBER
-	la $a0, 0(it_is_a_prime_number_msg)
-	li $v0, 4
-	syscall
-
-
-
-
+END:
